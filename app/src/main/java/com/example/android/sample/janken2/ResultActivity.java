@@ -85,7 +85,7 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
             percent =0;
         }else {
             //        勝率　＝　勝った数　/　（勝った数＋負けた数）
-            percent = ((double) win / (double) (win + lose)); // 1/(1+2) = 0.3333
+            percent = ((double) win / (double) (win + lose))*100; // 1/(1+2) = 0.3333
         }
 
         TextView tvWin = (TextView)findViewById(R.id.win);
