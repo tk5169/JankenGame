@@ -7,7 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.android.sample.janken2.R;
+import com.example.android.sample.janken2.R;//aaaaa
 import org.w3c.dom.Text;
 import android.text.Editable;
 
