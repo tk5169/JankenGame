@@ -19,6 +19,7 @@ public class JankenActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //不具合があったときはここを見てみる。問題なければこのコメントは消す
         setContentView(R.layout.activity_main);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.left);
