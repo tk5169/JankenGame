@@ -1,9 +1,12 @@
 package com.example.android.sample.janken2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,8 +26,11 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        Button button = (Button)findViewById(R.id.btnNext) ;
+        Button button = (Button) findViewById(R.id.btnNext);
         button.setOnClickListener(this);
+
+        Button button2 = (Button) findViewById(R.id.btnEnd);
+        button2.setOnClickListener(this);
 
 
         //ユーザーがグーチョキパーのうちどれを選んだのかを表示する
@@ -74,42 +80,66 @@ public class ResultActivity extends AppCompatActivity implements View.OnClickLis
             win++;
 
 
-
         }
 
 
         //        勝率　＝　勝った数　/　（勝った数＋負けた数）
 
         percent = 0;
-        if(win+lose==0){
-            percent =0;
-        }else {
+        if (win + lose == 0) {
+            percent = 0;
+        } else {
             //        勝率　＝　勝った数　/　（勝った数＋負けた数）
-            percent = ((double) win / (double) (win + lose))*100; // 1/(1+2) = 0.3333
+            percent = ((double) win / (double) (win + lose)) * 100; // 1/(1+2) = 0.3333
         }
 
-        TextView tvWin = (TextView)findViewById(R.id.win);
-        tvWin.setText("勝利数："+ win);
+        TextView tvWin = (TextView) findViewById(R.id.win);
+        tvWin.setText("勝利数：" + win);
 
-        TextView tvLose  = (TextView)findViewById(R.id.lose);
-        tvLose.setText("敗北数："+ lose);
+        TextView tvLose = (TextView) findViewById(R.id.lose);
+        tvLose.setText("敗北数：" + lose);
 
-        TextView tvPercent = (TextView)findViewById(R.id.percent);
-        tvPercent.setText("勝率："+ percent + "%");
+        TextView tvPercent = (TextView) findViewById(R.id.percent);
+        tvPercent.setText("勝率：" + percent + "%");
 
     }
 
     @Override
     public void onClick(View view) {
-        Intent data = new Intent();
-        data.putExtra("WIN",win);
-        data.putExtra("LOSE",lose);
-        data.putExtra("PERCENT",percent);
-        setResult(RESULT_OK,data);
+        int id = view.getId();
 
-        finish();
+        switch (id) {
+
+            case R.id.btnNext:
+                Intent data = new Intent();
+                data.putExtra("WIN", win);
+                data.putExtra("LOSE", lose);
+                data.putExtra("PERCENT", percent);
+                setResult(RESULT_OK, data);
+                finish();
+                break;
+
+            case R.id.btnEnd:
+                SharedPreferences prefs = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                //勝利数、敗北数の情報を保存
+                editor.putInt("win", win);
+                editor.putInt("lose", lose);
+                editor.apply();
+
+//                保存した情報を取得する
+//                int w = prefs.getInt("win", 0);
+//                int l = prefs.getInt("lose", 0);
+
+                //終了
+                android.os.Process.killProcess(android.os.Process.myPid());
+
+                break;
+
+
+        }
+
+
     }
 
-
 }
-
